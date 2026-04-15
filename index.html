@@ -1,73 +1,492 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Naveen Gopal | Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Naveen Gopal | Portfolio</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #1a2744;
+      --navy2: #243054;
+      --accent: #4f8ef7;
+      --accent2: #7c3aed;
+      --light: #f7f9fc;
+      --white: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --card: #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--light);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 60%, #2d1b69 100%);
+      color: #fff;
+      text-align: center;
+      padding: 80px 20px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 50%, rgba(79,142,247,0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(124,58,237,0.15) 0%, transparent 40%);
+      animation: pulse 6s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { opacity: 0.6; }
+      to   { opacity: 1; }
+    }
+
+    .avatar {
+      width: 90px; height: 90px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 32px; font-weight: 700; color: #fff;
+      margin: 0 auto 20px;
+      position: relative; z-index: 1;
+      animation: fadeDown 0.8s ease both;
+      border: 3px solid rgba(255,255,255,0.3);
+    }
+
+    header h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      position: relative; z-index: 1;
+      animation: fadeDown 0.9s 0.1s ease both;
+      letter-spacing: -0.5px;
+    }
+
+    header p {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.75);
+      margin-top: 10px;
+      position: relative; z-index: 1;
+      animation: fadeDown 1s 0.2s ease both;
+    }
+
+    .header-btns {
+      margin-top: 28px;
+      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+      position: relative; z-index: 1;
+      animation: fadeDown 1s 0.3s ease both;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 24px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(79,142,247,0.4);
+    }
+    .btn-outline {
+      border: 1.5px solid rgba(255,255,255,0.5);
+      color: #fff;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.25); }
+
+    /* floating shapes */
+    .shape {
+      position: absolute; border-radius: 50%;
+      opacity: 0.06;
+      animation: float 8s ease-in-out infinite;
+    }
+    .shape1 { width: 180px; height: 180px; background: var(--accent); top: -40px; right: 10%; animation-delay: 0s; }
+    .shape2 { width: 100px; height: 100px; background: var(--accent2); bottom: 10px; left: 8%; animation-delay: 3s; }
+    @keyframes float {
+      0%,100% { transform: translateY(0) rotate(0deg); }
+      50%      { transform: translateY(-18px) rotate(15deg); }
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--navy2);
+      display: flex; justify-content: center; gap: 4px;
+      padding: 0 16px;
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+    }
+    nav a {
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.88rem;
+      padding: 14px 16px;
+      letter-spacing: 0.3px;
+      position: relative;
+      transition: color 0.2s;
+    }
+    nav a::after {
+      content: '';
+      position: absolute; bottom: 0; left: 50%; right: 50%;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 2px 2px 0 0;
+      transition: left 0.25s, right 0.25s;
+    }
+    nav a:hover { color: #fff; }
+    nav a:hover::after { left: 12px; right: 12px; }
+
+    /* ── SECTIONS ── */
+    section {
+      max-width: 860px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .section-card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 36px 40px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.05);
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .section-card.visible { opacity: 1; transform: translateY(0); }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    /* ── ABOUT ── */
+    #about p {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--muted);
+    }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      margin-top: 4px;
+    }
+    .skill-tag {
+      display: flex; align-items: center; gap: 8px;
+      background: #f0f5ff;
+      border: 1px solid #c7d9fc;
+      color: #1a40a0;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: default;
+      transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+      animation: popIn 0.4s ease both;
+    }
+    .skill-tag:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(79,142,247,0.35);
+    }
+    .skill-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: 0.6;
+    }
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.85); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .project-card {
+      background: var(--light);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: default;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.35s ease;
+    }
+    .project-card:hover { transform: translateY(-5px); box-shadow: 0 12px 32px rgba(0,0,0,0.1); }
+    .project-card:hover::before { transform: scaleX(1); }
+
+    .project-icon {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      margin-bottom: 14px;
+    }
+    .icon-green { background: #e8faf0; }
+    .icon-blue  { background: #e8f0ff; }
+
+    .project-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .project-card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .project-tags {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin-top: 14px;
+    }
+    .project-tag {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+    .tag-purple { background: #f0eeff; color: #5b21b6; }
+    .tag-blue   { background: #e8f0ff; color: #1a40a0; }
+    .tag-teal   { background: #e0faf4; color: #0f6e56; }
+
+    /* ── CONTACT ── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .contact-item {
+      display: flex; align-items: center; gap: 14px;
+      padding: 18px 20px;
+      background: var(--light);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      text-decoration: none;
+      color: var(--text);
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+    .contact-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.09);
+      background: var(--white);
+    }
+    .contact-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .ci-mail  { background: #fce8e8; }
+    .ci-phone { background: #e8fce8; }
+    .contact-info { display: flex; flex-direction: column; }
+    .contact-label { font-size: 0.75rem; color: var(--muted); font-weight: 600; margin-bottom: 2px; }
+    .contact-value { font-size: 0.9rem; font-weight: 600; color: var(--navy); }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 28px 20px;
+      background: var(--navy);
+      color: rgba(255,255,255,0.55);
+      font-size: 0.88rem;
+      margin-top: 20px;
+    }
+    footer span { color: rgba(255,255,255,0.85); font-weight: 600; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .section-card { padding: 24px 20px; }
+      nav a { padding: 12px 10px; font-size: 0.82rem; }
+    }
+  </style>
 </head>
 <body>
 
-    <header>
-        <h1>Naveen Gopal</h1>
-        <p>B.Sc Computer Science Student | Web & App Developer</p>
-    </header>
+  <!-- HEADER -->
+  <header>
+    <div class="shape shape1"></div>
+    <div class="shape shape2"></div>
+    <div class="avatar">NG</div>
+    <h1>Naveen Gopal</h1>
+    <p>B.Sc Computer Science Student &nbsp;|&nbsp; Web &amp; App Developer</p>
+    <div class="header-btns">
+      <a class="btn btn-primary" href="#projects">View Projects</a>
+      <a class="btn btn-outline" href="#contact">Contact Me</a>
+    </div>
+  </header>
 
-    <nav>
-        <a href="#about">About</a>
-        <a href="#skills">Skills</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
-    </nav>
+  <!-- NAV -->
+  <nav>
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </nav>
 
-    <section id="about">
-        <h2>About Me</h2>
-        <p>
-            Motivated Computer Science student with skills in web and mobile app development.
-            Seeking an entry-level developer role to grow in the IT industry.
-        </p>
-    </section>
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-card">
+      <div class="section-label">Who I am</div>
+      <h2>About Me</h2>
+      <p>
+        Motivated Computer Science student with hands-on skills in web and mobile app development.
+        I enjoy building practical solutions — from full-stack web apps to cross-platform mobile experiences.
+        Seeking an entry-level developer role to grow and contribute in the IT industry.
+      </p>
+    </div>
+  </section>
 
-    <section id="skills">
-        <h2>Skills</h2>
-        <ul>
-            <li>Python</li>
-            <li>HTML, CSS, JavaScript</li>
-            <li>PHP & MySQL</li>
-            <li>Flutter (Dart)</li>
-            <li>UI/UX Design</li>
-        </ul>
-    </section>
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-card">
+      <div class="section-label">What I know</div>
+      <h2>Skills</h2>
+      <div class="skills-grid">
+        <div class="skill-tag" style="animation-delay:0.05s"><span class="skill-dot"></span>Python</div>
+        <div class="skill-tag" style="animation-delay:0.10s"><span class="skill-dot"></span>HTML &amp; CSS</div>
+        <div class="skill-tag" style="animation-delay:0.15s"><span class="skill-dot"></span>JavaScript</div>
+        <div class="skill-tag" style="animation-delay:0.20s"><span class="skill-dot"></span>PHP &amp; MySQL</div>
+        <div class="skill-tag" style="animation-delay:0.25s"><span class="skill-dot"></span>Flutter (Dart)</div>
+        <div class="skill-tag" style="animation-delay:0.30s"><span class="skill-dot"></span>UI/UX Design</div>
+      </div>
+    </div>
+  </section>
 
-    <section id="projects">
-        <h2>Projects</h2>
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-card">
+      <div class="section-label">What I've built</div>
+      <h2>Projects</h2>
+      <div class="projects-grid">
 
-        <div class="project">
-            <h3>Smart Agriculture System</h3>
-            <p>
-                Web application using HTML, PHP, MySQL.
-                Features: Crop guidance, farmer marketplace, chatbot.
-            </p>
+        <div class="project-card">
+          <div class="project-icon icon-green">🌾</div>
+          <h3>Smart Agriculture System</h3>
+          <p>Web application with crop guidance, a farmer marketplace, and an integrated chatbot to assist agricultural decisions.</p>
+          <div class="project-tags">
+            <span class="project-tag tag-blue">HTML</span>
+            <span class="project-tag tag-purple">PHP</span>
+            <span class="project-tag tag-teal">MySQL</span>
+          </div>
         </div>
 
-        <div class="project">
-            <h3>Weather App</h3>
-            <p>
-                Built using Flutter. Shows temperature, humidity, and wind details using API.
-            </p>
+        <div class="project-card">
+          <div class="project-icon icon-blue">🌤️</div>
+          <h3>Weather App</h3>
+          <p>Cross-platform mobile app built with Flutter that displays real-time temperature, humidity, and wind details via a live API.</p>
+          <div class="project-tags">
+            <span class="project-tag tag-blue">Flutter</span>
+            <span class="project-tag tag-purple">Dart</span>
+            <span class="project-tag tag-teal">REST API</span>
+          </div>
         </div>
 
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <section id="contact">
-        <h2>Contact</h2>
-        <p>Email: naveengopal505@gmail.com</p>
-        <p>Phone: +91 9344510832</p>
-    </section>
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-card">
+      <div class="section-label">Get in touch</div>
+      <h2>Contact</h2>
+      <div class="contact-grid">
+        <a class="contact-item" href="mailto:naveengopal505@gmail.com">
+          <div class="contact-icon ci-mail">✉️</div>
+          <div class="contact-info">
+            <span class="contact-label">Email</span>
+            <span class="contact-value">naveengopal505@gmail.com</span>
+          </div>
+        </a>
+        <a class="contact-item" href="tel:+919344510832">
+          <div class="contact-icon ci-phone">📞</div>
+          <div class="contact-info">
+            <span class="contact-label">Phone</span>
+            <span class="contact-value">+91 93445 10832</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
 
-    <footer>
-        <p>© 2026 Naveen Gopal</p>
-    </footer>
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 <span>Naveen Gopal</span> &nbsp;·&nbsp; Built with passion 🚀</p>
+  </footer>
 
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.section-card').forEach(el => observer.observe(el));
+
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  </script>
 </body>
 </html>
